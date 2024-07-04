@@ -1,0 +1,53 @@
+# You can configure drop material format:
+# Example: if amount small than: MATERIAL
+# 100: GOLDEN_INGOT
+# 500: GOLDEN
+# 1000: GOLDEN_BLOCK
+drop-material:
+  9999999: DIAMOND_BLOCK
+
+sound:
+  enable: false
+  sound: LEVEL_UP
+
+# By default, if entity is died should we drop money as item or no?
+drop-by-default: true
+
+# Worlds in which the plugin will not work.
+ignore-world:
+  - world_duels
+
+equal-exchange:
+  # in millis 1000millis = 1 sec
+  keep-time: 30000
+
+# Messages line
+# If you want to disable any message, just set the value to ""
+message:
+  pickup: "You pickup $money money!"
+  give: "You received $money for kill $entity!"
+
+# You can add specific value:
+# drop: true/false - drop money as item.
+# ++ (drop should be false)
+# equal-exchange: true/false - should we divide money from entity on all players who hit the entity with large damage. (only if drop is false)
+# last-hit: true/false - should we give item player who give last hit the entity (use by default if drop is false)
+# --
+#
+# If u dont want to give money for any entities, you can cut this entity.
+entities:
+  ZOMBIE:
+    money: 100
+  SPIDER:
+    money: 100
+  SKELETON:
+    money: 100
+  PIG:
+    money: 100
+  PLAYER:
+    money: 25%
+    max-money: 5000
+
+  # Others has any entities who dont write up
+  other:
+    money: 100
