@@ -20,11 +20,13 @@ public class PickupListener implements Listener {
         ItemStack item = event.getItem().getItemStack();
         ItemMeta meta = item.getItemMeta();
 
-        if(!item.hasItemMeta() || !meta.hasLore() || meta.getLore().size() != 1) return;
+        if(!item.hasItemMeta() || !meta.hasLore() || meta.getLore().size() != 1)
+            return;
 
         String itemLore = meta.getLore().get(0);
 
-        if(!itemLore.contains("$")) return;
+        if(!itemLore.contains("$"))
+            return;
 
         try {
             int price = Integer.parseInt(itemLore.replace("$", ""));

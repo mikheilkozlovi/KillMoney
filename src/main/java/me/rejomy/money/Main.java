@@ -8,15 +8,17 @@ import me.rejomy.money.util.EconomyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class Main extends JavaPlugin {
-    @Getter
-    private EconomyManager economyManager;
+
+    public static Main INSTANCE;
 
     public static Main getInstance() {
         return INSTANCE;
     }
 
-    public static Main INSTANCE;
+
+    private EconomyManager economyManager;
 
     @Override
     public void onEnable() {

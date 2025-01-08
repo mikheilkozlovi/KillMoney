@@ -25,7 +25,7 @@ public enum Config {
     String messagePickup;
     String messageReceive;
 
-    HashMap<Integer, Material> dropMaterials;
+    final HashMap<Integer, Material> dropMaterials = new HashMap<>();
 
     boolean dropByDefault;
     boolean playSound;
@@ -64,24 +64,27 @@ public enum Config {
         }
 
         for (String entity : config.getConfigurationSection("entities").getKeys(false)) {
-            if (!entity.equalsIgnoreCase("other") && !entityIsValid(entity)) continue;
+            boolean isNotOther = !entity.equalsIgnoreCase("other");
+
+            if (!isNotOther && !entityIsValid(entity))
+                continue;
 
             String path = "entities." + entity + ".";
-
+            String money = config.getString(path + "money");
             ConfigEntity configEntity = new ConfigEntity();
-            configEntity.setEntity(EntityType.valueOf(entity));
+
+            // Set EntityType only if it is not other section, in other we will run actions for non recognized entities.
+            if (isNotOther)
+                configEntity.setEntity(EntityType.valueOf(entity));
 
             if ((dropByDefault && config.get(path + "drop") == null) || config.getBoolean(path + "drop")) {
                 configEntity.setReceiveType(ConfigEntity.ReceiveType.DROP);
-            }
-            else {
+            } else {
                 if (config.getBoolean(path + "equal-exchange")) {
                     configEntity.setReceiveType(ConfigEntity.ReceiveType.EQUAL_EXCHANGE);
                 }
                 else configEntity.setReceiveType(ConfigEntity.ReceiveType.LAST_HIT);
             }
-
-            String money = config.getString(path + "money");
 
             if (money.contains("%")) {
                 money = money.replace("%", "");
@@ -89,8 +92,7 @@ public enum Config {
                 if (canParseInt(money, true)) {
                     configEntity.setPercent(Integer.parseInt(money));
                 }
-            }
-            else if (canParseInt(money, true)) {
+            } else if (canParseInt(money, true)) {
                 configEntity.setMoney(Integer.parseInt(money));
             }
 

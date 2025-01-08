@@ -10,7 +10,7 @@ sound:
   enable: false
   sound: LEVEL_UP
 
-# By default, if entity is died should we drop money as item or no?
+# By default, if entity is dead should we drop money as item or no?
 drop-by-default: true
 
 # Worlds in which the plugin will not work.

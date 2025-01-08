@@ -6,7 +6,6 @@ import me.rejomy.money.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DamageListener implements Listener {
+
     List<EntityProfile> entityProfileList = new ArrayList<>();
 
     public DamageListener() {
@@ -26,21 +26,17 @@ public class DamageListener implements Listener {
                 .anyMatch(configEntity -> configEntity.getReceiveType() == ConfigEntity.ReceiveType.EQUAL_EXCHANGE)) {
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), () ->
                     entityProfileList.removeIf(entityProfile -> {
-                        if (entityProfile.owner == null) return true;
+                        if (entityProfile.owner == null)
+                            return true;
 
-                        entityProfile.getDamageInfo().entrySet().removeIf(entry -> {
-                            if (System.currentTimeMillis() - entry.getValue()[1] > Config.INSTANCE.getEqualExchangeKeepTime())
-                                return true;
-
-                            return false;
-                        });
+                        entityProfile.getDamageInfo().entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue()[1] > Config.INSTANCE.getEqualExchangeKeepTime());
 
                         return entityProfile.getDamageInfo().isEmpty();
                     }), 600, 600);
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         Entity
                 killer = event.getDamager(),
@@ -63,6 +59,7 @@ public class DamageListener implements Listener {
                         .findFirst()
                         .orElse(null));
 
+
         if (configEntity == null) return;
 
         EntityProfile entityProfile = null;
@@ -74,7 +71,7 @@ public class DamageListener implements Listener {
                 entityProfile = new EntityProfile(victim);
             }
 
-            entityProfile.addDamage((Player) killer, event.getDamage());
+            entityProfile.addDamage((Player) killer, event.getFinalDamage());
         }
 
         // Check if victim not death
