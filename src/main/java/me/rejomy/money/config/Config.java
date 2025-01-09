@@ -66,7 +66,7 @@ public enum Config {
         for (String entity : config.getConfigurationSection("entities").getKeys(false)) {
             boolean isNotOther = !entity.equalsIgnoreCase("other");
 
-            if (!isNotOther && !entityIsValid(entity))
+            if (isNotOther && !entityIsValid(entity))
                 continue;
 
             String path = "entities." + entity + ".";
