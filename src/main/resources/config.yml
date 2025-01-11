@@ -1,9 +1,9 @@
-# You can configure drop material format:
-# Example: if amount small than: MATERIAL
-# 100: GOLDEN_INGOT
-# 500: GOLDEN
-# 1000: GOLDEN_BLOCK
+# Here you can choose what material will dropped money block has.
+# First value is money amount, if sum smaller than or equals this amount, we are will choose this material.
+# Works in non-decrease order.
 drop-material:
+  100: IRON_BLOCK
+  200: EMERALD_BLOCK
   9999999: DIAMOND_BLOCK
 
 sound:

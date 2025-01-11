@@ -6,13 +6,12 @@ import me.rejomy.money.util.ConfigEntity;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public enum Config {
@@ -56,7 +55,7 @@ public enum Config {
         this.equalExchangeKeepTime = config.getInt("equal-exchange.keep-time");
 
         for (String amount : config.getConfigurationSection("drop-material").getKeys(false)) {
-            if (!canParseInt(amount, true)) continue;
+            if (!canParseInt(amount)) continue;
             String material = config.getString("drop-material." + amount);
             if (!materialIsValid(material)) continue;
 
@@ -89,10 +88,10 @@ public enum Config {
             if (money.contains("%")) {
                 money = money.replace("%", "");
 
-                if (canParseInt(money, true)) {
+                if (canParseInt(money)) {
                     configEntity.setPercent(Integer.parseInt(money));
                 }
-            } else if (canParseInt(money, true)) {
+            } else if (canParseInt(money)) {
                 configEntity.setMoney(Integer.parseInt(money));
             }
 
@@ -137,16 +136,22 @@ public enum Config {
         }
     }
 
-    private boolean canParseInt(String value, boolean warning) {
+    private boolean canParseInt(String value) {
         try {
             Integer.parseInt(value);
             return true;
         } catch (NumberFormatException exception) {
-            if (warning) {
-                Main.getInstance().getLogger().warning("Money: " + value + " is not a number!");
-                Main.getInstance().getLogger().warning("We skip this value");
-            }
+            Main.getInstance().getLogger().warning("Money: " + value + " is not a number!");
+            Main.getInstance().getLogger().warning("We skip this value");
             return false;
         }
+    }
+
+    public Material getDropMaterial(int money) {
+        return dropMaterials.entrySet().stream()
+                .filter(entry -> entry.getKey() <= money)
+                .min(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .orElse(Material.DIAMOND);
     }
 }

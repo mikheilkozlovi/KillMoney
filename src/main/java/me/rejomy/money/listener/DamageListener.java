@@ -108,7 +108,7 @@ public class DamageListener implements Listener {
     }
 
     private void drop(Location location, int money) {
-        ItemStack dropItem = new ItemStack(Material.valueOf(Main.getInstance().getConfig().getString("drop-material")), 1);
+        ItemStack dropItem = new ItemStack(Config.INSTANCE.getDropMaterial(money), 1);
         ItemMeta meta = dropItem.getItemMeta();
 
         List<String> lore = new ArrayList<>();
