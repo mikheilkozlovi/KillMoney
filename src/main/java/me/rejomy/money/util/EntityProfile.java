@@ -8,14 +8,14 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class EntityProfile {
+
+    @Getter
+    HashMap<Player, double[]> damageInfo = new HashMap<>();
     public Entity owner;
 
     public EntityProfile(Entity owner) {
         this.owner = owner;
     }
-
-    @Getter
-    HashMap<Player, double[]> damageInfo = new HashMap<>();
 
     public void addDamage(Player player, double damage) {
         double[] data = damageInfo.getOrDefault(player, new double[] {0, System.currentTimeMillis()});

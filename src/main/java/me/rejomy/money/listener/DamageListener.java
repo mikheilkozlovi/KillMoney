@@ -87,7 +87,7 @@ public class DamageListener implements Listener {
             if (killer instanceof Player) {
                 giveMoney(((Player) killer).getPlayer(), money);
             }
-        } else if (configEntity.getReceiveType() == ConfigEntity.ReceiveType.EQUAL_EXCHANGE) {
+        } else if (entityProfile != null && configEntity.getReceiveType() == ConfigEntity.ReceiveType.EQUAL_EXCHANGE) {
             double damageSum = entityProfile.getDamageInfo().values().stream().mapToDouble(value -> value[0]).sum();
 
             int moneyPerOneDamage = (int) Math.floor(money / damageSum);
