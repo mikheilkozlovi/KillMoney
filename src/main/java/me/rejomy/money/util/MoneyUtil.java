@@ -22,7 +22,10 @@ public class MoneyUtil {
             }
 
             if (Main.getInstance().getEconomyManager().takeMoney(offlinePlayer, Math.min(configEntity.getMax(), money))) {
-                entity.sendMessage(ColorUtil.toColor(Config.INSTANCE.getMessageLoss()).replace("$money", String.valueOf(money)));
+                String message = Config.INSTANCE.getMessageLoss();
+
+                if (!message.isEmpty())
+                    entity.sendMessage(ColorUtil.toColor(message).replace("$money", String.valueOf(money)));
             }
         }
 
