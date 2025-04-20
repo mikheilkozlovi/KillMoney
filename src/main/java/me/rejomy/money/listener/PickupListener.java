@@ -20,34 +20,34 @@ public class PickupListener implements Listener {
         ItemStack item = event.getItem().getItemStack();
         ItemMeta meta = item.getItemMeta();
 
-        if(!item.hasItemMeta() || !meta.hasLore() || meta.getLore().size() != 1)
+        if (!item.hasItemMeta() || !meta.hasLore() || meta.getLore().size() != 1)
             return;
 
         String itemLore = meta.getLore().get(0);
 
-        if(!itemLore.contains("$"))
+        if (!itemLore.contains("$"))
             return;
 
         try {
             int price = Integer.parseInt(itemLore.replace("$", ""));
 
-            if(entity instanceof Player) {
+            if (entity instanceof Player) {
 
                 String message = Main.getInstance().getConfig().getString("message.pickup");
 
-                if(!message.isEmpty()) {
+                if (!message.isEmpty()) {
                     entity.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(price))));
                 }
 
                 Main.getInstance().getEconomyManager().giveMoney((OfflinePlayer) entity, price);
 
                 event.getItem().remove();
-
             }
 
             event.setCancelled(true);
 
-        } catch (NumberFormatException exception) {}
+        } catch (NumberFormatException exception) {
+        }
 
     }
 

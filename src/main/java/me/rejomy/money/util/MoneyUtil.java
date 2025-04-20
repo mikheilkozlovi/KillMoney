@@ -7,13 +7,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 public class MoneyUtil {
+
     public static int getMoneyFromConfig(ConfigEntity configEntity, Entity entity) {
         int money = configEntity.getMoney();
 
-        if(configEntity.getEntity() == EntityType.PLAYER) {
+        if (configEntity.getEntity() == EntityType.PLAYER) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(entity.getName());
 
-            if(configEntity.getPercent() > 0) {
+            if (configEntity.getPercent() > 0) {
                 int balance = (int) Math.round(Main.getInstance().getEconomyManager().getBalance(offlinePlayer));
 
                 money = (balance * configEntity.getPercent()) / 100;

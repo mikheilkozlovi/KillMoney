@@ -1,6 +1,7 @@
 package me.rejomy.money;
 
 import lombok.Getter;
+import me.rejomy.money.command.KillMoneyCommand;
 import me.rejomy.money.config.Config;
 import me.rejomy.money.listener.DamageListener;
 import me.rejomy.money.listener.PickupListener;
@@ -30,6 +31,8 @@ public class Main extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PickupListener(), this);
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
+
+        getCommand("killmoney").setExecutor(new KillMoneyCommand());
 
         saveDefaultConfig();
     }

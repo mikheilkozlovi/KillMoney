@@ -149,7 +149,7 @@ public enum Config {
 
     public Material getDropMaterial(int money) {
         return dropMaterials.entrySet().stream()
-                .filter(entry -> entry.getKey() <= money)
+                .filter(entry -> entry.getKey() >= money)
                 .min(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
                 .orElse(Material.DIAMOND);

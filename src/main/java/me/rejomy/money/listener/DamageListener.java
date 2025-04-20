@@ -60,7 +60,8 @@ public class DamageListener implements Listener {
                         .orElse(null));
 
 
-        if (configEntity == null) return;
+        if (configEntity == null)
+            return;
 
         EntityProfile entityProfile = null;
 
@@ -75,11 +76,13 @@ public class DamageListener implements Listener {
         }
 
         // Check if victim not death
-        if (!isDied) return;
+        if (!isDied)
+            return;
 
         int money = MoneyUtil.getMoneyFromConfig(configEntity, victim);
 
-        if (money < 0) return;
+        if (money <= 0)
+            return;
 
         if (configEntity.getReceiveType() == ConfigEntity.ReceiveType.DROP) {
             drop(victim.getLocation(), money);
@@ -104,6 +107,12 @@ public class DamageListener implements Listener {
     }
 
     private void giveMoney(Player player, int money) {
+        String message = Main.getInstance().getConfig().getString("message.pickup");
+
+        if (!message.isEmpty()) {
+            player.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(money))));
+        }
+
         Main.getInstance().getEconomyManager().giveMoney(player, money);
     }
 
