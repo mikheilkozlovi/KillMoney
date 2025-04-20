@@ -3,7 +3,7 @@ version: 1.0
 name: KillMoney
 api-version: 1.13
 
-command:
+commands:
   killmoney:
     permission: killmoney.command
     permission-message: You dont have permission killmoney.command to execute this command.
