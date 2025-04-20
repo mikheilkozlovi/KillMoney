@@ -26,6 +26,7 @@ equal-exchange:
 message:
   pickup: "You pickup $money money!"
   give: "You received $money for kill $entity!"
+  loss: "You lost $money of your balance!"
 
 # You can add specific value:
 # drop: true/false - drop money as item.

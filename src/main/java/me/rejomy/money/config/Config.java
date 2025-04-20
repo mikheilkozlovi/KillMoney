@@ -23,6 +23,7 @@ public enum Config {
 
     String messagePickup;
     String messageReceive;
+    String messageLoss;
 
     final HashMap<Integer, Material> dropMaterials = new HashMap<>();
 
@@ -51,6 +52,7 @@ public enum Config {
 
         this.messagePickup = config.getString("message.pickup");
         this.messageReceive = config.getString("message.give");
+        this.messageLoss = config.getString("message.loss");
 
         this.equalExchangeKeepTime = config.getInt("equal-exchange.keep-time");
 

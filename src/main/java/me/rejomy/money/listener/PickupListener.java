@@ -1,6 +1,7 @@
 package me.rejomy.money.listener;
 
 import me.rejomy.money.Main;
+import me.rejomy.money.config.Config;
 import me.rejomy.money.util.ColorUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
@@ -32,8 +33,7 @@ public class PickupListener implements Listener {
             int price = Integer.parseInt(itemLore.replace("$", ""));
 
             if (entity instanceof Player) {
-
-                String message = Main.getInstance().getConfig().getString("message.pickup");
+                String message = Config.INSTANCE.getMessagePickup();
 
                 if (!message.isEmpty()) {
                     entity.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(price))));

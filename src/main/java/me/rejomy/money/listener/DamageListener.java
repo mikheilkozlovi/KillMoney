@@ -79,7 +79,7 @@ public class DamageListener implements Listener {
         if (!isDied)
             return;
 
-        int money = MoneyUtil.getMoneyFromConfig(configEntity, victim);
+        int money = MoneyUtil.getMoneyFromConfigAndTake(configEntity, victim);
 
         if (money <= 0)
             return;
@@ -107,7 +107,7 @@ public class DamageListener implements Listener {
     }
 
     private void giveMoney(Player player, int money) {
-        String message = Main.getInstance().getConfig().getString("message.pickup");
+        String message = Config.INSTANCE.getMessageReceive();
 
         if (!message.isEmpty()) {
             player.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(money))));
