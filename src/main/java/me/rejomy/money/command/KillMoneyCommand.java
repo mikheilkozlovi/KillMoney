@@ -1,5 +1,6 @@
 package me.rejomy.money.command;
 
+import me.rejomy.money.Main;
 import me.rejomy.money.config.Config;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,6 +15,7 @@ public class KillMoneyCommand implements CommandExecutor {
             sendHelp(sender);
         } else {
             if (args[0].equalsIgnoreCase("reload")) {
+                Main.getInstance().saveDefaultConfig();
                 Config.INSTANCE.load();
                 sender.sendMessage(ChatColor.GREEN + "[KillMoney] Plugin has been reloaded.");
             } else {
