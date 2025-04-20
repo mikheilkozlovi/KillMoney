@@ -15,7 +15,7 @@ public class KillMoneyCommand implements CommandExecutor {
             sendHelp(sender);
         } else {
             if (args[0].equalsIgnoreCase("reload")) {
-                Main.getInstance().saveDefaultConfig();
+                Main.getInstance().reloadConfig();
                 Config.INSTANCE.load();
                 sender.sendMessage(ChatColor.GREEN + "[KillMoney] Plugin has been reloaded.");
             } else {
