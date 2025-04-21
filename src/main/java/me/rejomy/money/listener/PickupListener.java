@@ -3,6 +3,7 @@ package me.rejomy.money.listener;
 import me.rejomy.money.Main;
 import me.rejomy.money.config.Config;
 import me.rejomy.money.util.ColorUtil;
+import me.rejomy.money.util.PlayerUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class PickupListener implements Listener {
         ItemStack item = event.getItem().getItemStack();
         ItemMeta meta = item.getItemMeta();
 
-        if (!item.hasItemMeta() || !meta.hasLore() || meta.getLore().size() != 1)
+        if (!item.hasItemMeta() || !meta.hasLore() || meta.getLore().size() != 2)
             return;
 
         String itemLore = meta.getLore().get(0);
@@ -32,15 +33,12 @@ public class PickupListener implements Listener {
         try {
             int price = Integer.parseInt(itemLore.replace("$", ""));
 
-            if (entity instanceof Player) {
+            if (entity instanceof Player player) {
                 String message = Config.INSTANCE.getMessagePickup();
-
-                if (!message.isEmpty()) {
-                    entity.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(price))));
-                }
-
+                PlayerUtil.sendMessage(player, message,
+                        "money", String.valueOf(price),
+                        "entity", meta.getLore().get(1));
                 Main.getInstance().getEconomyManager().giveMoney((OfflinePlayer) entity, price);
-
                 event.getItem().remove();
             }
 

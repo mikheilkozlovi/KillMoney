@@ -85,10 +85,10 @@ public class DamageListener implements Listener {
             return;
 
         if (configEntity.getReceiveType() == ConfigEntity.ReceiveType.DROP) {
-            drop(victim.getLocation(), money);
+            drop(victim, victim.getLocation(), money);
         } else if (configEntity.getReceiveType() == ConfigEntity.ReceiveType.LAST_HIT) {
             if (killer instanceof Player) {
-                giveMoney(((Player) killer).getPlayer(), money);
+                giveMoney(((Player) killer).getPlayer(), victim, money);
             }
         } else if (entityProfile != null && configEntity.getReceiveType() == ConfigEntity.ReceiveType.EQUAL_EXCHANGE) {
             double damageSum = entityProfile.getDamageInfo().values().stream().mapToDouble(value -> value[0]).sum();
@@ -96,7 +96,7 @@ public class DamageListener implements Listener {
             int moneyPerOneDamage = (int) Math.floor(money / damageSum);
 
             entityProfile.getDamageInfo()
-                    .forEach((key, value) -> giveMoney(key, ((int) value[0]) * moneyPerOneDamage));
+                    .forEach((key, value) -> giveMoney(key, victim, ((int) value[0]) * moneyPerOneDamage));
 
             entityProfileList.remove(entityProfile);
         }
@@ -106,8 +106,12 @@ public class DamageListener implements Listener {
         }
     }
 
-    private void giveMoney(Player player, int money) {
+    private void giveMoney(Player player, Entity victim, int money) {
         String message = Config.INSTANCE.getMessageReceive();
+        PlayerUtil.sendMessage(player, message,
+                "money", String.valueOf(money),
+                "entity", victim.getName()
+                );
 
         if (!message.isEmpty()) {
             player.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(money))));
@@ -116,21 +120,25 @@ public class DamageListener implements Listener {
         Main.getInstance().getEconomyManager().giveMoney(player, money);
     }
 
-    private void drop(Location location, int money) {
+    private void drop(Entity victim, Location location, int money) {
         ItemStack dropItem = new ItemStack(Config.INSTANCE.getDropMaterial(money), 1);
         ItemMeta meta = dropItem.getItemMeta();
 
         List<String> lore = new ArrayList<>();
 
         lore.add("$" + money);
+        lore.add(victim.getName());
 
         meta.setLore(lore);
 
         dropItem.setItemMeta(meta);
 
         Item item = location.getWorld().dropItemNaturally(location, dropItem);
+        String title = Config.INSTANCE.getDropTitle();
+        title = ColorUtil.toColor(title);
+        title = StringUtil.format(title, "$amount", String.valueOf(money));
 
-        item.setCustomName(ColorUtil.toColor("&6&l" + money));
+        item.setCustomName(title);
         item.setCustomNameVisible(true);
     }
 }

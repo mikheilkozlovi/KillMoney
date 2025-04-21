@@ -1,6 +1,7 @@
 # Here you can choose what material will dropped money block has.
 # First value is money amount, if sum smaller than or equals this amount, we are will choose this material.
 # Works in non-decrease order.
+drop-title: "&6&l$amount$"
 drop-material:
   100: IRON_BLOCK
   200: EMERALD_BLOCK
@@ -24,7 +25,7 @@ equal-exchange:
 # Messages line
 # If you want to disable any message, just set the value to ""
 message:
-  pickup: "You pickup $money money!"
+  pickup: "You pickup $money money from $entity!"
   give: "You received $money for kill $entity!"
   loss: "You lost $money of your balance!"
 

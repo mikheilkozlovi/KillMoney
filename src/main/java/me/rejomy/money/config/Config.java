@@ -21,6 +21,7 @@ public enum Config {
 
     int equalExchangeKeepTime;
 
+    String dropTitle;
     String messagePickup;
     String messageReceive;
     String messageLoss;
@@ -50,6 +51,7 @@ public enum Config {
         }
         //
 
+        this.dropTitle = config.getString("drop-title");
         this.messagePickup = config.getString("message.pickup");
         this.messageReceive = config.getString("message.give");
         this.messageLoss = config.getString("message.loss");
