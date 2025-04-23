@@ -113,10 +113,6 @@ public class DamageListener implements Listener {
                 "entity", victim.getName()
                 );
 
-        if (!message.isEmpty()) {
-            player.sendMessage(ColorUtil.toColor(message.replace("$money", String.valueOf(money))));
-        }
-
         Main.getInstance().getEconomyManager().giveMoney(player, money);
     }
 
