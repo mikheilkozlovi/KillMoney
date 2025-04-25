@@ -20,6 +20,7 @@ public enum Config {
     List<String> ignoredWorlds;
 
     int equalExchangeKeepTime;
+    double maxTimeInSecondsSinceLastHit;
 
     String dropTitle;
     String messagePickup;
@@ -29,7 +30,12 @@ public enum Config {
     final HashMap<Integer, Material> dropMaterials = new HashMap<>();
 
     boolean dropByDefault;
+    boolean notTriggerOnDamage;
     boolean playSound;
+    boolean allowEntityKillByEntityDrop;
+    boolean allowPlayerKillByEntityDrop;
+    boolean allowPlayerDeathDrop;
+    boolean allowMobDeathDrop;
 
     Sound sound;
 
@@ -38,8 +44,11 @@ public enum Config {
     public void load() {
         FileConfiguration config = Main.getInstance().getConfig();
 
+        this.maxTimeInSecondsSinceLastHit = config.getDouble("max-time-since-last-hit");
+
         this.ignoredWorlds = config.getStringList("ignore-world");
 
+        this.notTriggerOnDamage = !config.getBoolean("trigger-on-damage");
         this.dropByDefault = config.getBoolean("drop-by-default");
         this.playSound = config.getBoolean("sound.enable");
         // Check the sound validate.
@@ -100,7 +109,7 @@ public enum Config {
             }
 
             if (config.get(path + "max-money") != null) {
-                configEntity.setMax(config.getInt(path + "max-money"));
+                configEntity.setMaxMoney(config.getInt(path + "max-money"));
             }
 
             entities.add(configEntity);

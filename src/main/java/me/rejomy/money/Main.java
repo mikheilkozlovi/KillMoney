@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.rejomy.money.command.KillMoneyCommand;
 import me.rejomy.money.config.Config;
 import me.rejomy.money.listener.DamageListener;
+import me.rejomy.money.listener.DeathListener;
 import me.rejomy.money.listener.PickupListener;
 import me.rejomy.money.util.EconomyManager;
 import org.bukkit.Bukkit;
@@ -18,7 +19,6 @@ public class Main extends JavaPlugin {
         return INSTANCE;
     }
 
-
     private EconomyManager economyManager;
 
     @Override
@@ -31,6 +31,7 @@ public class Main extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PickupListener(), this);
         Bukkit.getPluginManager().registerEvents(new DamageListener(), this);
+        Bukkit.getPluginManager().registerEvents(new DeathListener(), this);
 
         getCommand("killmoney").setExecutor(new KillMoneyCommand());
 

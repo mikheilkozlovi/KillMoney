@@ -9,9 +9,13 @@ import org.bukkit.entity.EntityType;
 public class ConfigEntity {
     EntityType entity;
     ReceiveType receiveType;
+    // Static money value, if necessary.
     int money = -1;
+    // Money value in percentage of total entity balance
+    // can be adjusted by max if necessary.
     int percent;
-    int max = Integer.MAX_VALUE;
+    // Max amount of money that entity able to lose.
+    int maxMoney = Integer.MAX_VALUE;
 
     public ConfigEntity() {}
 

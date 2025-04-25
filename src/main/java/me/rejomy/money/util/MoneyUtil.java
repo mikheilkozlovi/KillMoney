@@ -21,7 +21,10 @@ public class MoneyUtil {
                 money = (balance * configEntity.getPercent()) / 100;
             }
 
-            if (Main.getInstance().getEconomyManager().takeMoney(offlinePlayer, Math.min(configEntity.getMax(), money))) {
+            // Limit the money amount between current and max.
+            money = Math.min(configEntity.getMaxMoney(), money);
+
+            if (Main.getInstance().getEconomyManager().takeMoney(offlinePlayer, money)) {
                 String message = Config.INSTANCE.getMessageLoss();
 
                 if (!message.isEmpty())

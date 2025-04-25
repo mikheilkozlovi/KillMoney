@@ -1,5 +1,27 @@
-# Here you can choose what material will dropped money block has.
-# First value is money amount, if sum smaller than or equals this amount, we are will choose this material.
+# Should we check EntityDamageByEntity event first?
+# Can cause some issue, so if plugin works fine without this, keep it false.
+trigger-on-damage: false
+
+# How much time should be gone since last hit, for drop money in seconds.
+max-time-since-last-hit: 10
+
+# By default, if entity is dead should we drop money as item or no?
+drop-by-default: true
+
+take-money-if:
+  # Should we take money from player if he was killed by entity?
+  entity-killed-player: false
+  # Should we take money from player if he was died?
+  player-die: false
+  # Should we take money from entity if he was died?
+  # Only with "drop": true case.
+  entity-die: false
+  # Should we drop money if entity was killed by entity?
+  # Works only if "drop": true in section with entity or drop by default and not reassign.
+  entity-killed-entity: false
+
+# Here you can choose what material will drop money that block has.
+# First value is money amount, if sum smaller than or equals this amount, we will choose this material.
 # Works in non-decrease order.
 drop-title: "&6&l$amount$"
 drop-material:
@@ -10,9 +32,6 @@ drop-material:
 sound:
   enable: false
   sound: LEVEL_UP
-
-# By default, if entity is dead should we drop money as item or no?
-drop-by-default: true
 
 # Worlds in which the plugin will not work.
 ignore-world:
