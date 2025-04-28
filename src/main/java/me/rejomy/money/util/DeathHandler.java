@@ -32,9 +32,8 @@ public class DeathHandler {
         EntityProfile entityProfile = entityProfileList.stream().filter(eProfile -> eProfile.getOwner() == victim).findAny().orElse(null);
 
         // Maybe target does not receive any damage before, so that can be null.
-        if (entityProfile != null) {
+        if (entityProfile != null)
             handle(entityProfile);
-        }
     }
 
     public void handle(EntityProfile entityProfile) {
@@ -56,6 +55,7 @@ public class DeathHandler {
 
         // We cant handle this death case, because since last damage to this object passed more than limited time.
         if (lastHitWasSince > Config.INSTANCE.getMaxTimeInSecondsSinceLastHit() * 1000) {
+
             // If player die single scenario enabled, drop or take money.
             if (victim instanceof Player && Config.INSTANCE.isAllowPlayerDeathDrop() || Config.INSTANCE.isAllowMobDeathDrop()) {
                 processMoneyTransfer(configEntity, victim, killer, entityProfile);
@@ -65,10 +65,16 @@ public class DeathHandler {
         }
 
         boolean victimIsPlayer = victim instanceof Player;
-        boolean killerIsNotAPlayer = !(killer instanceof Player);
+        boolean killerIsPlayer = killer instanceof Player;
+        boolean killerIsNotAPlayer = !killerIsPlayer;
+        boolean victimIsNotAPlayer = !victimIsPlayer;
+        // The game scenarios where we should drop money.
+        boolean playerWasKilledByPlayer = victimIsPlayer && killerIsPlayer;
+        boolean playerWasKilledByMob = victimIsPlayer && killerIsNotAPlayer && Config.INSTANCE.isAllowPlayerKilledByEntityDrop();
+        boolean mobWasKilledByPlayer = victimIsNotAPlayer && killerIsPlayer;
+        boolean mobWasKilledByMob = victimIsNotAPlayer && killerIsNotAPlayer && Config.INSTANCE.isAllowEntityKilledByEntityDrop();
 
-        if (victimIsPlayer && !(killerIsNotAPlayer && !Config.INSTANCE.isAllowPlayerKillByEntityDrop()) ||
-            !victimIsPlayer && killerIsNotAPlayer && Config.INSTANCE.isAllowEntityKillByEntityDrop()) {
+        if (playerWasKilledByPlayer || playerWasKilledByMob || mobWasKilledByPlayer || mobWasKilledByMob) {
             processMoneyTransfer(configEntity, killer, victim, entityProfile);
 
             if (Config.INSTANCE.isPlaySound()) {
@@ -86,8 +92,7 @@ public class DeathHandler {
                         || // Check if victim doesn't living entity
                         !(victim instanceof LivingEntity)
                         || // Check if victim and attacker not Player, it means the mob killed a mob.
-                        !(attacker instanceof Player) && !(victim instanceof Player) &&
-                                !Config.INSTANCE.isAllowEntityKillByEntityDrop() && !Config.INSTANCE.isAllowPlayerKillByEntityDrop()
+                        !(attacker instanceof Player) && !(victim instanceof Player) && !Config.INSTANCE.isAllowEntityKilledByEntityDrop()
         ) return;
 
         boolean isDied = ((LivingEntity) victim).getHealth() <= finalDamage;
@@ -134,7 +139,6 @@ public class DeathHandler {
             }
         } else if (configEntity.getReceiveType() == ConfigEntity.ReceiveType.EQUAL_EXCHANGE) {
             double damageSum = entityProfile.getDamageInfo().values().stream().mapToDouble(value -> value[0]).sum();
-
             int moneyPerOneDamage = (int) Math.floor(money / damageSum);
 
             entityProfile.getDamageInfo()

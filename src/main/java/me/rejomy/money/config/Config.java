@@ -32,8 +32,8 @@ public enum Config {
     boolean dropByDefault;
     boolean notTriggerOnDamage;
     boolean playSound;
-    boolean allowEntityKillByEntityDrop;
-    boolean allowPlayerKillByEntityDrop;
+    boolean allowEntityKilledByEntityDrop;
+    boolean allowPlayerKilledByEntityDrop;
     boolean allowPlayerDeathDrop;
     boolean allowMobDeathDrop;
 
